@@ -1,0 +1,11 @@
+# Files the Worker never serves (tools, tests, notes, config)
+.git
+.wrangler
+.claude
+.github
+tools
+worker
+node_modules
+*.md
+wrangler.jsonc
+package.json
