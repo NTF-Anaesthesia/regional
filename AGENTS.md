@@ -62,3 +62,10 @@ node shared/regional/test/run-all.mjs --gate=main   # regional suites (static se
   `deny` list (edit their build scripts instead), and say so here. Ask the owner if one is really needed.
 - Run only the touched app's tests while iterating and the full run once before merge. Screenshots only for visual
   changes (one, viewport-sized); debug logic with text.
+
+## Private notes and repo layout
+
+Private notes: `NTF-Anaesthesia/anantf-private` (private, org members only). At the start of a session attach it
+(`add_repo`) and read its `CLAUDE.md`; save lasting notes there, never here. Repo layout: one repo per app or app
+group, public code plus a `-private` pair; a new app gets its own repo (test in anantf-private `hub/new-repo.md`),
+never a folder here.
