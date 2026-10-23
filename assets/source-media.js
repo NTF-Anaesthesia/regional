@@ -1,0 +1,4 @@
+(()=>{const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+ if(!reduced.matches&&'IntersectionObserver' in window){const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.remove('pending');io.unobserve(e.target)}}),{threshold:.05});document.querySelectorAll('.source-photo').forEach(el=>{el.classList.add('source-reveal','pending');io.observe(el)})}
+ const frame=document.querySelector('#regional-preview');if(frame)window.addEventListener('message',e=>{if(e.source!==frame.contentWindow||e.origin!==location.origin||e.data?.type!=='ana-ntf-preview-height')return;const h=Number(e.data.height);if(Number.isFinite(h)&&h>=150&&h<=1500)frame.style.height=Math.ceil(h)+'px'});
+})();
