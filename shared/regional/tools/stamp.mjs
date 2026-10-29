@@ -9,7 +9,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { kitRefs, isKit } from '../../../tools/app-kit.mjs';
+import { kitRefs, isKit, CORE_FILES } from '../../../tools/app-kit.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
 const swPath = path.join(root, 'regional-sw.js');
@@ -57,6 +57,7 @@ while (queue.length) {
   }
 }
 // Fonts, styles, scripts and logos are precached; the bigger site pictures (banners) are kept on first use.
+for (const u of CORE_FILES) kit.add(u);
 const site = [...[...found].filter((f) => !/\.(png|webp|jpe?g)$/.test(f)), ...kit].sort();
 const siteMedia = [...found].filter((f) => /\.(png|webp|jpe?g)$/.test(f)).sort();
 for (const f of [...shell.map((x) => (x.endsWith('/') ? x + 'index.html' : x)), ...site, ...siteMedia]) if (!isKit(f) && !exists(f)) { console.error('missing ' + f); process.exit(1); }

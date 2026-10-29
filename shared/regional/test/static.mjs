@@ -148,7 +148,7 @@ function resolveRef(f, spec) {
     const inRegional = (f) => ALLOWED.some((d) => f.startsWith(d)) || f === 'regional.html';
     const badShell = sw.SHELL.filter((f) => !inRegional(f));
     // the app kit is the one cross-origin entry: app.css and its fonts on design.anantf.com/v1/
-    const isKitUrl = (f) => /^https:\/\/design\.anantf\.com\/v1\/(app\.css|fonts\/[\w.-]+\.woff2)$/.test(f);
+    const isKitUrl = (f) => /^https:\/\/design\.anantf\.com\/v1\/(app\.css|fonts\/[\w.-]+\.woff2)$/.test(f) || /^https:\/\/core\.anawj\.com\/ui\/1\.0\.0-rc\.34\/theme\/[\w./-]+\.(css|js)$/.test(f);
     const badSite = [...sw.SITE.filter((f) => !isKitUrl(f)), ...sw.SITE_MEDIA].filter((f) => !/^(assets\/[\w./-]+\.(css|js|svg|png|webp|jpe?g)|fonts\/[\w.-]+\.woff2|[\w.-]+\.svg)$/.test(f));
     R.check('precache lists hold only regional files and shared site styles, scripts, pictures and fonts', !badShell.length && !badSite.length, [...badShell, ...badSite].join(', '));
     const mustClaim = ['/blocks/', '/regional.html', '/shared/regional/js/shell.js', '/shared/us/truncal/esp-1.jpg', '/plexus/model/lumbar.glb', '/shared/vendor/three-r160/build/three.module.min.js',
