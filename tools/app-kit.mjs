@@ -24,6 +24,7 @@ if (import.meta.url === `file://${process.argv[1]}` && process.argv.includes('--
 
 // The app core's theme (app-ui, pinned in shared/regional/js/kit.js and css/kit.css): the files that page pulls in, which the
 // worker precaches like the app kit above. Change the version in all three places together (static.mjs checks).
-export const CORE = 'https://core.anawj.com/ui/1.0.0-rc.34/';
-export const CORE_FILES = ['theme/theme.css', ...['choice', 'colour', 'guard', 'looks', 'palette-css', 'presets', 'schema'].map((f) => `theme/${f}.js`),
-  ...['a', 'b', 'c', 'd', 'e'].map((f) => `theme/looks/${f}.js`)].map((f) => CORE + f);
+export const CORE = 'https://core.anawj.com/ui/1.0.0-rc.35/';
+export const CORE_FILES = [KIT + 'tokens.css', ...KIT_FONTS,
+  ...['theme/theme.css', ...['choice', 'colour', 'guard', 'looks', 'palette-css', 'presets', 'schema'].map((f) => `theme/${f}.js`),
+    ...['a', 'b', 'c', 'd', 'e'].map((f) => `theme/looks/${f}.js`)].map((f) => CORE + f)];
