@@ -1,0 +1,10 @@
+/* The app core's theme under the app's own look. Layer order: kit (core's custom properties and element rules) loses to
+   kitoff (below), which loses to every unlayered rule of the app, so no page changes unless it uses a kit value.
+   The pinned version is the one in js/kit.js (shared/regional/test/static.mjs checks they agree). */
+@layer kit, kitoff;
+@import url("https://design.anantf.com/v1/tokens.css") layer(kit);
+@import url("https://core.anawj.com/ui/1.0.0-rc.35/theme/theme.css") layer(kit);
+@layer kitoff {
+  :root { color-scheme: light; }
+  body, h1, h2, h3, button, input, select, textarea { all: revert; }
+}

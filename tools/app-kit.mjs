@@ -7,7 +7,7 @@
 export const KIT = 'https://design.anantf.com/v1/';
 // The fonts app.css loads (its url()s, relative to /v1/).
 export const KIT_FONTS = ['fonts/inter.woff2', 'fonts/jetbrains-mono.woff2', 'fonts/literata.woff2'].map((f) => KIT + f);
-export const isKit = (f) => f.startsWith(KIT);
+export const isKit = (f) => f.startsWith(KIT) || f.startsWith(CORE);
 // The kit URLs a page or stylesheet links (href=, src=), plus the fonts app.css loads when it links app.css.
 export function kitRefs(text) {
   const refs = new Set([...text.matchAll(/(?:href|src)=["'](https:\/\/design\.anantf\.com\/v1\/[^"'?#]+)/g)].map((m) => m[1]));
@@ -21,3 +21,10 @@ if (import.meta.url === `file://${process.argv[1]}` && process.argv.includes('--
   if (JSON.stringify(live) !== JSON.stringify([...KIT_FONTS].sort())) { console.error(`KIT_FONTS is ${KIT_FONTS.join(', ')}; the live app.css loads ${live.join(', ')}`); process.exit(1); }
   console.log(`app kit fonts ok (${live.length})`);
 }
+
+// The app core's theme (app-ui, pinned in shared/regional/js/kit.js and css/kit.css): the files that page pulls in, which the
+// worker precaches like the app kit above. Change the version in all three places together (static.mjs checks).
+export const CORE = 'https://core.anawj.com/ui/1.0.0-rc.35/';
+export const CORE_FILES = [KIT + 'tokens.css', ...KIT_FONTS,
+  ...['theme/theme.css', ...['choice', 'colour', 'guard', 'looks', 'palette-css', 'presets', 'schema'].map((f) => `theme/${f}.js`),
+    ...['a', 'b', 'c', 'd', 'e'].map((f) => `theme/looks/${f}.js`)].map((f) => CORE + f)];

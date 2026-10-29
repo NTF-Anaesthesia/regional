@@ -145,10 +145,13 @@ function resolveRef(f, spec) {
     const ALLOWED = ['blocks/', 'truncal/', 'head-neck/', 'lower-limb/', 'upper-limb/', 'brachial-plexus/', 'plexus/', 'spinal/', 'shared/regional/', 'shared/us/', 'shared/vendor/three-r160/'];
     const badPrefix = sw.PREFIXES.filter((p) => !ALLOWED.includes(p.replace(/^\//, '')));
     R.check('regional-sw.js claims only the regional folders', !badPrefix.length && sw.PAGES.every((p) => p === '/regional.html'), `extra: ${[...badPrefix, ...sw.PAGES.filter((p) => p !== '/regional.html')].join(', ')}`);
+    const coreVer = (f) => (read(f).match(/core\.anawj\.com\/ui\/([\w.-]+)\//) || [])[1];
+    const vers = ['shared/regional/js/kit.js', 'shared/regional/css/kit.css', 'tools/app-kit.mjs'].map(coreVer);
+    R.check('the app core version is the same in kit.js, kit.css and tools/app-kit.mjs', vers.every((v) => v && v === vers[0]), vers.join(' / '));
     const inRegional = (f) => ALLOWED.some((d) => f.startsWith(d)) || f === 'regional.html';
     const badShell = sw.SHELL.filter((f) => !inRegional(f));
     // the app kit is the one cross-origin entry: app.css and its fonts on design.anantf.com/v1/
-    const isKitUrl = (f) => /^https:\/\/design\.anantf\.com\/v1\/(app\.css|fonts\/[\w.-]+\.woff2)$/.test(f);
+    const isKitUrl = (f) => /^https:\/\/design\.anantf\.com\/v1\/(app\.css|tokens\.css|fonts\/[\w.-]+\.woff2)$/.test(f) || /^https:\/\/core\.anawj\.com\/ui\/1\.0\.0-rc\.35\/theme\/[\w./-]+\.(css|js)$/.test(f);
     const badSite = [...sw.SITE.filter((f) => !isKitUrl(f)), ...sw.SITE_MEDIA].filter((f) => !/^(assets\/[\w./-]+\.(css|js|svg|png|webp|jpe?g)|fonts\/[\w.-]+\.woff2|[\w.-]+\.svg)$/.test(f));
     R.check('precache lists hold only regional files and shared site styles, scripts, pictures and fonts', !badShell.length && !badSite.length, [...badShell, ...badSite].join(', '));
     const mustClaim = ['/blocks/', '/regional.html', '/shared/regional/js/shell.js', '/shared/us/truncal/esp-1.jpg', '/plexus/model/lumbar.glb', '/shared/vendor/three-r160/build/three.module.min.js',
